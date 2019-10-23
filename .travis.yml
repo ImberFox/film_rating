@@ -1,0 +1,21 @@
+language: python
+python:
+  - "3.6"
+# command to install dependencies
+install:
+  - pip install -r requirements.txt
+# command to run tests
+before_script:  psql -c "CREATE ROLE hust with superuser login password '951103'" - U postgres;
+                psql -c "CREATE DATABASE lastunion;" -U postgres;
+script:
+  - coverage run --source='.' ./manage.py test app # or py.test for Python versions 3.5 and below
+  - coverage report
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: ddbe560e-7726-41ed-bef4-bfbcc8a170a8
+  app: film-rating
+run: ./manage.py makemigrations
+     ./manage.py migrate
+     # gunicorn films_ratings.wsgi

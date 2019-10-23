@@ -1,0 +1,7 @@
+django >= 2.0
+gunicorn>=19
+setuptools>=0.7.3
+dj-database-url
+simplejson
+psycopg2
+coverage
